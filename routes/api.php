@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', [LoginController::class, 'login']);
-Route::post('register', [RegisterController::class, 'register']);
+Route::post('auth/login', [LoginController::class, 'login']);
+Route::post('auth/register', [RegisterController::class, 'register']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
 

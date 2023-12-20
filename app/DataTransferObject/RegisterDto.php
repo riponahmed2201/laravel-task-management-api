@@ -10,7 +10,7 @@ class RegisterDto
         public readonly string $name,
         public readonly string $email,
         public readonly string $password,
-        public readonly string $status,
+        public readonly string $role,
     )
     {
 
@@ -22,7 +22,7 @@ class RegisterDto
             name: $registerRequest->validated('name'),
             email: $registerRequest->validated('email'),
             password: $registerRequest->validated('password'),
-            status: $registerRequest->validated('status'),
+            role: $registerRequest->validated('role'),
         );
     }
 }

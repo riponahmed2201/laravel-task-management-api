@@ -18,7 +18,7 @@ class RegisterService
             'name' => $registerDto->name,
             'email' => $registerDto->email,
             'password' => Hash::make($registerDto->password),
-            'status' => $registerDto->status,
+            'role' => $registerDto->role,
         ]);
     }
 }

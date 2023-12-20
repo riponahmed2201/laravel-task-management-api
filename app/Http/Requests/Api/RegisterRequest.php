@@ -27,10 +27,10 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'email' => ['required'],
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
             'role' => ['required', new Enum(RoleStatus::class)],
-            'password' => ['required']
+            'password' => 'required|string|min:6|max:50'
         ];
     }
 }
