@@ -7,8 +7,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserService
 {
-    public function getUserByToken($request): Collection
+    public function getUserByToken()
     {
-        return JWTAuth::authenticate($request->token);
+        return JWTAuth::parseToken()->authenticate();
     }
 }

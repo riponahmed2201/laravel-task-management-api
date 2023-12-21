@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Helpers\Helper;
 use Closure;
+use Spatie\FlareClient\Http\Exceptions\NotFound;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,16 +23,37 @@ class JwtMiddleware
 
             $user = JWTAuth::parseToken()->authenticate();
 
+            if (!empty($user)) {
+                return $next($request);
+            }
+
+            return response()->json([
+                'success' => false,
+                'statusCode' => 500,
+                'message' => 'Authorization Token not found.'
+            ]);
+
         } catch (Exception $e) {
 
+            $response = [
+                'success' => false,
+                'statusCode' => 500,
+                'message' => 'Authorization Token not found.'
+            ];
+
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return (new Helper())->sendErrorResponse('Token is Invalid.', $e->getMessage(), $e->getCode());
+
+                $response['message'] = 'Token is Invalid.';
+                return response()->json($response);
+
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return (new Helper())->sendErrorResponse('Token is Expired.', $e->getMessage(), $e->getCode());
+
+                $response['message'] = 'Token is Expired.';
+                return response()->json($response);
+
             } else {
-                return (new Helper())->sendErrorResponse('Authorization Token not found.', $e->getMessage(), $e->getCode());
+                return response()->json($response);
             }
         }
-        return $next($request);
     }
 }
